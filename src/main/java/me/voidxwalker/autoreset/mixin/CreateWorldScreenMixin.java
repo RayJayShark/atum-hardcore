@@ -48,7 +48,11 @@ public abstract class CreateWorldScreenMixin {
                 e.printStackTrace();
             }
             this.worldCreator.setDifficulty(difficulty);
-            this.worldCreator.setWorldName((Atum.seed == null || Atum.seed.isEmpty()) ? "Random Speedrun #" + Atum.rsgAttempts : "Set Speedrun #" + Atum.ssgAttempts);
+            if (Atum.worldName == null || Atum.worldName.isEmpty()) {
+                this.worldCreator.setWorldName((Atum.seed == null || Atum.seed.isEmpty()) ? "Random Speedrun #" + Atum.rsgAttempts : "Set Speedrun #" + Atum.ssgAttempts);
+            } else {
+                this.worldCreator.setWorldName(Atum.worldName);
+            }
             this.worldCreator.setWorldType(this.worldCreator.getNormalWorldTypes().get(Atum.generatorType));
             this.worldCreator.setGenerateStructures(Atum.structures);
             this.worldCreator.setBonusChestEnabled(Atum.bonusChest);
