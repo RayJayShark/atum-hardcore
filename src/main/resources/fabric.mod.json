@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "atum",
+  "id": "atum-hardcore",
   "version": "${version}",
-  "name": "Atum",
-  "description": "Mod to automatically reset RSG and SSG",
+  "name": "Atum-hardcore",
+  "description": "Mod to automatically reset RSG and SSG. Added support for hardcore worlds.",
   "authors": [
     {
       "name": "Void_X_Walker",
@@ -24,12 +24,18 @@
       "contact": {
         "homepage": "https://github.com/tildejustin"
       }
+    },
+    {
+      "name": "RayJayShark",
+      "contact": {
+        "homepage": "https://github.com/RayJayShark"
+      }
     }
   ],
   "contact": {
-    "homepage": "https://github.com/tildejustin/atum",
-    "sources": "https://github.com/tildejustin/atum",
-    "issues": "https://github.com/tildejustin/atum/issues"
+    "homepage": "https://github.com/RayJayShark/atum-hardcore",
+    "sources": "https://github.com/RayJayShark/atum-hardcore",
+    "issues": "https://github.com/RayJayShark/atum-hardcore/issues"
   },
   "license": "MIT",
   "icon": "assets/atum/icon.png",
