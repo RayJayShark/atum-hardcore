@@ -21,6 +21,8 @@ public class AutoResetOptionScreen extends Screen {
     private int generatorType;
     private boolean structures;
     private boolean bonusChest;
+    private TextFieldWidget worldNameField;
+    private String worldName;
 
     public AutoResetOptionScreen(@Nullable Screen parent) {
         super(Atum.getTranslation("menu.autoresetTitle", "Autoreset Options"));
@@ -28,14 +30,18 @@ public class AutoResetOptionScreen extends Screen {
     }
 
     protected void init() {
-        this.seedField = new TextFieldWidget(this.textRenderer, this.width / 2 - 100, this.height - 160, 200, 20, Atum.getTranslation("menu.enterSeed", "Enter a Seed"));
+        this.seedField = new TextFieldWidget(this.textRenderer, this.width / 2 - 100, this.height - 195, 200, 20, Atum.getTranslation("menu.enterSeed", "Enter a Seed"));
         this.seedField.setText(Atum.seed == null ? "" : Atum.seed);
         this.seed = Atum.seed;
         this.generatorType = Atum.generatorType;
         this.structures = Atum.structures;
         this.bonusChest = Atum.bonusChest;
         this.difficulty = Atum.difficulty;
+        this.worldNameField = new TextFieldWidget(this.textRenderer, this.width / 2 - 100, this.height - 145, 200, 20, Atum.getTranslation("menu.enterWorldName", "Enter a World Name"));
+        this.worldNameField.setText(Atum.worldName == null ? "" : Atum.worldName);
+        this.worldName = Atum.worldName;
         this.seedField.setChangedListener((string) -> this.seed = string);
+        this.worldNameField.setChangedListener((string) -> this.worldName = string);
         this.addDrawableChild(
                 CyclingButtonWidget.<Integer>builder(value -> value == -1 ? Text.translatable("selectWorld.gameMode.hardcore") : Difficulty.byId(value).getTranslatableName())
                         .values(IntStream.range(-1, 4).boxed().sorted().toList())
@@ -62,6 +68,7 @@ public class AutoResetOptionScreen extends Screen {
             Atum.structures = this.structures;
             Atum.bonusChest = this.bonusChest;
             Atum.generatorType = this.generatorType;
+            Atum.worldName = this.worldName;
             try {
                 Atum.saveProperties();
             } catch (IOException e) {
@@ -71,6 +78,7 @@ public class AutoResetOptionScreen extends Screen {
         }).dimensions(this.width / 2 - 155, this.height - 28, 150, 20).build());
         this.addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, (buttonWidget) -> this.client.setScreen(this.parent)).dimensions(this.width / 2 + 5, this.height - 28, 150, 20).build());
         this.addSelectableChild(this.seedField);
+        this.addSelectableChild(this.worldNameField);
         this.setInitialFocus(this.seedField);
     }
 
@@ -81,8 +89,10 @@ public class AutoResetOptionScreen extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, this.height - 210, -1);
-        context.drawCenteredTextWithShadow(this.textRenderer, Atum.getTranslation("menu.enterSeed", "Seed (Leave empty for a random Seed)").getString(), this.width / 2, this.height - 180, -6250336);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, this.height - 230, -1);
+        context.drawCenteredTextWithShadow(this.textRenderer, Atum.getTranslation("menu.enterSeed", "Seed (Leave empty for a random Seed)").getString(), this.width / 2, this.height - 210, -6250336);
+        context.drawCenteredTextWithShadow(this.textRenderer, Atum.getTranslation("menu.enterWorldName", "World Name (Leave empty for a random name)").getString(), this.width / 2, this.height - 160, -6250336);
         this.seedField.render(context, mouseX, mouseY, delta);
+        this.worldNameField.render(context, mouseX, mouseY, delta);
     }
 }
