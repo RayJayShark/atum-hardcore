@@ -30,6 +30,9 @@ public class DebugHudMixin {
             if (Atum.bonusChest) {
                 returnValue.add("BonusChest");
             }
+            if (Atum.deleteWorld) {
+                returnValue.add("DeleteWorld");
+            }
         }
     }
 }

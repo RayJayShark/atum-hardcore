@@ -23,6 +23,8 @@ public class AutoResetOptionScreen extends Screen {
     private boolean bonusChest;
     private TextFieldWidget worldNameField;
     private String worldName;
+    private boolean deleteWorld;
+    private CyclingButtonWidget<Boolean> deleteWorldButton;
 
     public AutoResetOptionScreen(@Nullable Screen parent) {
         super(Atum.getTranslation("menu.autoresetTitle", "Autoreset Options"));
@@ -40,6 +42,7 @@ public class AutoResetOptionScreen extends Screen {
         this.worldNameField = new TextFieldWidget(this.textRenderer, this.width / 2 - 100, this.height - 145, 200, 20, Atum.getTranslation("menu.enterWorldName", "Enter a World Name"));
         this.worldNameField.setText(Atum.worldName == null ? "" : Atum.worldName);
         this.worldName = Atum.worldName;
+        this.deleteWorld = Atum.deleteWorld;
         this.seedField.setChangedListener((string) -> this.seed = string);
         this.worldNameField.setChangedListener((string) -> this.worldName = string);
         this.addDrawableChild(
@@ -60,8 +63,12 @@ public class AutoResetOptionScreen extends Screen {
                 CyclingButtonWidget.onOffBuilder(this.structures).build(this.width / 2 - 155, this.height - 64, 150, 20, Text.translatable("selectWorld.mapFeatures"), (button, value) -> this.structures = value)
         );
         this.addDrawableChild(
-                CyclingButtonWidget.onOffBuilder(this.bonusChest).build(this.width / 2 + 5, this.height - 64, 150, 20, Text.translatable("selectWorld.bonusItems"), (button, value) -> this.bonusChest = value)
+                CyclingButtonWidget.onOffBuilder(this.bonusChest).build(this.width / 2 + 5, this.height - 76, 150, 20, Text.translatable("selectWorld.bonusItems"), (button, value) -> this.bonusChest = value)
         );
+        deleteWorldButton = this.addDrawableChild(
+                CyclingButtonWidget.onOffBuilder(this.deleteWorld).build(this.width / 2 + 5, this.height - 52, 150, 20, Text.translatable("Delete World"), (button, value) -> this.deleteWorld = value)
+        );
+
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("gui.done"), (buttonWidget) -> {
             Atum.seed = this.seed;
             Atum.difficulty = this.difficulty;
@@ -69,6 +76,7 @@ public class AutoResetOptionScreen extends Screen {
             Atum.bonusChest = this.bonusChest;
             Atum.generatorType = this.generatorType;
             Atum.worldName = this.worldName;
+            Atum.deleteWorld = this.deleteWorld;
             try {
                 Atum.saveProperties();
             } catch (IOException e) {
@@ -94,5 +102,9 @@ public class AutoResetOptionScreen extends Screen {
         context.drawCenteredTextWithShadow(this.textRenderer, Atum.getTranslation("menu.enterWorldName", "World Name (Leave empty for a random name)").getString(), this.width / 2, this.height - 160, -6250336);
         this.seedField.render(context, mouseX, mouseY, delta);
         this.worldNameField.render(context, mouseX, mouseY, delta);
+
+        if (deleteWorldButton.isHovered()) {
+            context.drawTooltip(Atum.getTranslation("menu.deleteWorldHover", "Deletes world on reset"), mouseX, mouseY);
+        }
     }
 }

@@ -26,6 +26,7 @@ public class Atum implements ModInitializer {
     public static boolean structures = true;
     public static boolean bonusChest = false;
     public static String worldName = "";
+    public static boolean deleteWorld = false;
     public static KeyBinding resetKey;
     public static boolean shouldReset = false;
     static Map<String, String> extraProperties = new LinkedHashMap<>();
@@ -166,13 +167,14 @@ public class Atum implements ModInitializer {
         properties.put("structures", String.valueOf(structures));
         properties.put("bonusChest", String.valueOf(bonusChest));
         properties.put("worldName", worldName);
+        properties.put("deleteWorld", String.valueOf(deleteWorld));
         return properties;
     }
 
     static void loadFromProperties(Properties properties) {
         if (properties != null) {
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-                if (!entry.getKey().equals("seed") && !entry.getKey().equals("difficulty") && !entry.getKey().equals("generatorType") && !entry.getKey().equals("rsgAttempts") && !entry.getKey().equals("ssgAttempts") && !entry.getKey().equals("structures") && !entry.getKey().equals("bonusChest") && !entry.getKey().equals("worldName")) {
+                if (!entry.getKey().equals("seed") && !entry.getKey().equals("difficulty") && !entry.getKey().equals("generatorType") && !entry.getKey().equals("rsgAttempts") && !entry.getKey().equals("ssgAttempts") && !entry.getKey().equals("structures") && !entry.getKey().equals("bonusChest") && !entry.getKey().equals("worldName") && !entry.getKey().equals("deleteWorld")) {
                     extraProperties.put((String) entry.getKey(), (String) entry.getValue());
                 }
             }
@@ -210,6 +212,7 @@ public class Atum implements ModInitializer {
             structures = !properties.containsKey("structures") || Boolean.parseBoolean(properties.getProperty("structures"));
             bonusChest = Boolean.parseBoolean(properties.getProperty("bonusChest"));
             worldName = !properties.containsKey("worldName") ? "" : properties.getProperty("worldName");
+            deleteWorld = Boolean.parseBoolean(properties.getProperty("deleteWorld"));
         }
     }
 
