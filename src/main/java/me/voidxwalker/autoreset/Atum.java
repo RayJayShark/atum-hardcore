@@ -34,6 +34,7 @@ public class Atum implements ModInitializer {
     public static int ssgAttempts;
     public static boolean structures = true;
     public static boolean bonusChest = false;
+    public static String worldName = "";
     public static KeyBinding resetKey;
     public static boolean shouldReset = false;
     static Map<String, String> extraProperties = new LinkedHashMap<>();
@@ -166,13 +167,14 @@ public class Atum implements ModInitializer {
         properties.put("generatorType", String.valueOf(generatorType));
         properties.put("structures", String.valueOf(structures));
         properties.put("bonusChest", String.valueOf(bonusChest));
+        properties.put("worldName", worldName);
         return properties;
     }
 
     static void loadFromProperties(Properties properties) {
         if (properties != null) {
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-                if (!entry.getKey().equals("seed") && !entry.getKey().equals("difficulty") && !entry.getKey().equals("generatorType") && !entry.getKey().equals("rsgAttempts") && !entry.getKey().equals("ssgAttempts") && !entry.getKey().equals("structures") && !entry.getKey().equals("bonusChest")) {
+                if (!entry.getKey().equals("seed") && !entry.getKey().equals("difficulty") && !entry.getKey().equals("generatorType") && !entry.getKey().equals("rsgAttempts") && !entry.getKey().equals("ssgAttempts") && !entry.getKey().equals("structures") && !entry.getKey().equals("bonusChest") && !entry.getKey().equals("worldName")) {
                     extraProperties.put((String) entry.getKey(), (String) entry.getValue());
                 }
             }
@@ -209,6 +211,7 @@ public class Atum implements ModInitializer {
             }
             structures = !properties.containsKey("structures") || Boolean.parseBoolean(properties.getProperty("structures"));
             bonusChest = Boolean.parseBoolean(properties.getProperty("bonusChest"));
+            worldName = !properties.containsKey("worldName") ? "" : properties.getProperty("worldName");
         }
     }
 
