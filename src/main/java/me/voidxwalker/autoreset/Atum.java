@@ -63,6 +63,10 @@ public class Atum implements ModInitializer {
         LOGGER.log(level, message);
     }
 
+    public static void logError(String message, Exception ex) {
+        LOGGER.log(Level.ERROR, message,  ex);
+    }
+
     public static Text getTranslation(String path, String text) {
         if (Language.getInstance().get(path).equals(path)) {
             return Text.literal(text);

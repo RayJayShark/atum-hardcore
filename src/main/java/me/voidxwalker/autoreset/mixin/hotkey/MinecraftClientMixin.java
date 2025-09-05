@@ -73,7 +73,7 @@ public abstract class MinecraftClientMixin {
                 try (LevelStorage.Session session = this.levelStorage.createSessionWithoutSymlinkCheck(levelName)) {
                     session.deleteSessionLock();
                 } catch (IOException iOException) {
-                    Atum.log(Level.ERROR, "Failed to delete world: " + levelName);
+                    Atum.logError("Failed to delete world: " + levelName, iOException);
                 }
             }
 
