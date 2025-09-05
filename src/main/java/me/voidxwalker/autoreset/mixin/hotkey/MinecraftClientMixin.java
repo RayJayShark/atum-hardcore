@@ -83,6 +83,7 @@ public abstract class MinecraftClientMixin {
 
         var levelName = levelStorageSession.getDirectoryName();
         var success = false;
+        IOException lastException = null;
         // Try deleting for 1 minute
         while (!success && stopWatch.getDuration().getSeconds() < 60) {
             Atum.log(Level.INFO, "Deleting level: " + levelName);
@@ -91,13 +92,18 @@ public abstract class MinecraftClientMixin {
                 session.deleteSessionLock();
                 success = true;
             } catch (IOException iOException) {
-                Atum.logError("Failed to delete world: " + levelName, iOException);
+                lastException = iOException;
+                Atum.log(Level.WARN, "Failed to delete world: " + levelName);
             }
             try {
                 Thread.sleep(500);
             } catch (InterruptedException interruptedException) {
                 Atum.logError("Failed to sleep", interruptedException);
             }
+        }
+
+        if (!success) {
+            Atum.logError("Unable to delete world, will need deleted manually: " + levelName, lastException);
         }
     }
 
