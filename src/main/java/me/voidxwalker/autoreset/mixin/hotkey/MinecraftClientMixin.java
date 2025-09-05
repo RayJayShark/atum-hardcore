@@ -13,6 +13,7 @@ import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.server.SaveLoader;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.world.level.storage.LevelStorage;
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -64,6 +65,14 @@ public abstract class MinecraftClientMixin {
                         this.disconnectWithSavingScreen();
                     }
                 }
+            }
+
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
+
+            /* Wait for it to disconnect */
+            while (this.world != null && stopWatch.getDuration().getSeconds() < 5) {
+                Atum.log(Level.INFO, "Waiting for world to disconnect...");
             }
 
             if (shouldDeleteWorld) {
