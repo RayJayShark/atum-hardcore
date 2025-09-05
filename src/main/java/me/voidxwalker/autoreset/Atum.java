@@ -72,6 +72,10 @@ public class Atum implements ModInitializer {
         LOGGER.log(level, message);
     }
 
+    public static void logError(String message, Exception ex) {
+        LOGGER.log(Level.ERROR, message,  ex);
+    }
+
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing");
