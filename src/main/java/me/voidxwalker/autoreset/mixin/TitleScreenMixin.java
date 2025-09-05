@@ -32,9 +32,6 @@ public class TitleScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void init(CallbackInfo info) {
-        if (Atum.isRunning) {
-            Atum.scheduleReset();
-        }
         this.resetButton = this.addDrawableChild(ButtonWidget.builder(Text.literal(""), buttonWidget -> {
             assert client != null;
             if (client.isShiftPressed()) {

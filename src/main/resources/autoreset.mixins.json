@@ -7,7 +7,7 @@
     "CreateWorldScreenMixin",
     "DeathScreenMixin",
     "DebugHudMixin",
-    "OptionsScreenMixin",
+    "GameMenuScreenMixin",
     "TitleScreenMixin",
     "TranslationStorageMixin",
     "hotkey.KeyboardMixin",
