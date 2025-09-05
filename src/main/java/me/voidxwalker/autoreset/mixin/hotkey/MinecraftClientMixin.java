@@ -67,26 +67,37 @@ public abstract class MinecraftClientMixin {
                 }
             }
 
-            StopWatch stopWatch = new StopWatch();
-            stopWatch.start();
-
-            /* Wait for it to disconnect */
-            while (this.world != null && stopWatch.getDuration().getSeconds() < 5) {
-                Atum.log(Level.INFO, "Waiting for world to disconnect...");
-            }
-
             if (shouldDeleteWorld) {
-                var levelName = levelStorageSession.getDirectoryName();
-                Atum.log(Level.INFO, "Deleting level: " + levelName);
-
-                try (LevelStorage.Session session = this.levelStorage.createSessionWithoutSymlinkCheck(levelName)) {
-                    session.deleteSessionLock();
-                } catch (IOException iOException) {
-                    Atum.logError("Failed to delete world: " + levelName, iOException);
-                }
+                var thread = new Thread(this::deleteWorld);
+                thread.start();
             }
 
             Atum.createNewWorld();
+        }
+    }
+
+    @Unique
+    public void deleteWorld() {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        var levelName = levelStorageSession.getDirectoryName();
+        var success = false;
+        // Try deleting for 1 minute
+        while (!success && stopWatch.getDuration().getSeconds() < 60) {
+            Atum.log(Level.INFO, "Deleting level: " + levelName);
+
+            try (LevelStorage.Session session = this.levelStorage.createSessionWithoutSymlinkCheck(levelName)) {
+                session.deleteSessionLock();
+                success = true;
+            } catch (IOException iOException) {
+                Atum.logError("Failed to delete world: " + levelName, iOException);
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException interruptedException) {
+                Atum.logError("Failed to sleep", interruptedException);
+            }
         }
     }
 
