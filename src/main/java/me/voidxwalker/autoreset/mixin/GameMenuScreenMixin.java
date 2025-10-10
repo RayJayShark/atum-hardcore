@@ -21,7 +21,7 @@ public class GameMenuScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/GameMenuScreen;initWidgets()V"))
     public void addAutoResetButton(CallbackInfo ci) {
-        stopResetting = this.addDrawableChild(ButtonWidget.builder(Atum.getTranslation("menu.stop_resets", "Reset World"), (buttonWidget) -> {
+        stopResetting = this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.reset"), (buttonWidget) -> {
             Atum.isRunning = false;
             Atum.scheduleReset();
         }).size(100, 20).build());

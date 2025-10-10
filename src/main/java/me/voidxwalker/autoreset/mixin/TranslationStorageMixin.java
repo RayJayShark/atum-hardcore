@@ -20,6 +20,13 @@ public abstract class TranslationStorageMixin {
         map.putIfAbsent("menu.stop_resets", "Stop Resets & Quit");
         map.putIfAbsent("menu.enterSeed", "Seed (Leave empty for a random Seed)");
         map.putIfAbsent("key.category.atum.keys", "Atum");
+
+        // Added to hardcore version
+        map.putIfAbsent("menu.reset", "Reset World");
+        map.putIfAbsent("menu.enterWorldName", "World Name (Leave empty for a random name)");
+        map.putIfAbsent("menu.deleteWorldHover", "Deletes world on reset");
+        map.putIfAbsent("menu.enterWorldName", "Enter a World Name");
+
         if (map.containsKey("key.atum.reset")) map.putIfAbsent("Create New World", map.get("Create New World"));
         return map;
     }

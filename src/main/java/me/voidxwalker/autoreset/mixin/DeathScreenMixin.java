@@ -18,7 +18,7 @@ public abstract class DeathScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void moveAutoResetButton(CallbackInfo ci) {
-        this.addDrawableChild(ButtonWidget.builder(Atum.getTranslation("menu.reset", "Reset World"), (buttonWidget) -> {
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.reset"), (buttonWidget) -> {
             Atum.isRunning = false;
             Atum.scheduleReset();
         }).dimensions(this.width / 2 - 50, this.height / 4 + 130, 100, 20).build());

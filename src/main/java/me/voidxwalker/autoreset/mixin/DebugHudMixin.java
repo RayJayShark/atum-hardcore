@@ -26,7 +26,7 @@ public abstract class DebugHudMixin {
                 lines.add(Text.literal("GenType: ").append(s).getString());
             }
             if (Atum.deleteWorld) {
-                returnValue.add("DeleteWorld");
+                lines.add("DeleteWorld");
             }
         }
         if (!Atum.structures) {
